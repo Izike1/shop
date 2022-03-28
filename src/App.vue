@@ -1,26 +1,46 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="app">
+    <my-header
+      :cart-items="cartItems"
+      :remove-cart-item="removeCartItem"
+    />
+    <main-page
+        :cart-items="cartItems"
+        :add-to-cart="addToCart"
+    />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import myHeader from "@/components/header/my-header";
+import mainPage from "@/components/mainPage/main-page";
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    myHeader,
+    mainPage
+  },
+  props: {
+    productName: String,
+  },
+  data() {
+    return {
+      cartItems: [],
+    }
+  },
+  methods: {
+    removeCartItem(cartItem) {
+      this.cartItems = this.cartItems.filter( (p) => { return cartItem.id !== p.id} )
+    },
+    addToCart(name) {
+      this.cartItems = [...this.cartItems,{id: Date.now(),name}];
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
